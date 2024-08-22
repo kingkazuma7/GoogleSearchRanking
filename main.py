@@ -2,9 +2,16 @@
 
 import datetime
 import gspread
+import os
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+
+# .envファイルを読み込む
+load_dotenv('.env') 
+
+SHPREADSHEET_KEY = os.environ.get("SHPREADSHEET_KEY")
 
 # Googleスプレッドシートにアクセス
 def auth_gspread(json_file_name, shpreadsheet_key):
@@ -41,7 +48,7 @@ def google_search(keyword, domain, num_results=30):
 
 # メインの処理
 json_file_name = '/content/drive/MyDrive/Engineering/03_blog/ferrous-marking-431123-d9-ee2ea4870813.json'
-shpreadsheet_key = '1kZVpy5RcoM37H4BWWfLTSfTEipO56z9Seilyxr65D8w'
+shpreadsheet_key = SHPREADSHEET_KEY # 環境変数からスプレッドシートのキーを使用
 
 worksheet = auth_gspread(json_file_name, shpreadsheet_key)
 keywords = worksheet.col_values(1)[1:]  # 最初の行をスキップ
